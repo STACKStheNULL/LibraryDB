@@ -17,7 +17,7 @@ use librarydb;
 --
 
 CREATE TABLE `authors` (
-  `author_id` int(11) NOT NULL,
+  `author_id` int(11) PRIMARY KEY,
   `name` varchar(255) NOT NULL,
   `birth_year` int(11) DEFAULT NULL,
   `death_year` int(11) DEFAULT NULL
@@ -56,7 +56,7 @@ INSERT INTO `authors` (`author_id`, `name`, `birth_year`, `death_year`) VALUES
 (26, 'Ray Bradbury', 1920, 2012),
 (27, 'Margaret Atwood', 1939, NULL),
 (28, 'Stephen King', 1947, NULL),
-(29, 'Tolkien', 1892, 1973),
+(29, 'Ibn Khaldun', 1332, 1406),
 (30, 'J.D. Salinger', 1919, 2010),
 (31, 'Ibn Taymiyyah', 1263, 1328),
 (32, 'Gabriel Garcia Marquez', 1927, 2014),
@@ -79,7 +79,7 @@ INSERT INTO `authors` (`author_id`, `name`, `birth_year`, `death_year`) VALUES
 (49, 'Alice Walker', 1944, NULL),
 (50, 'Toni Morrison', 1931, 2019),
 (51, 'Edgar Allan Poe', 1809, 1849),
-(52, 'Charles Dickens', 1812, 1870),
+(52, 'Victor Hugo', 1802, 1885),
 (53, 'Ibn al-Qayyim', 1292, 1350),
 (54, 'al-Jahiz', 776, 868),
 (55, 'Ibn Hisham', NULL, 833),
@@ -92,8 +92,7 @@ INSERT INTO `authors` (`author_id`, `name`, `birth_year`, `death_year`) VALUES
 (62, 'Dan Brown', 1964, NULL),
 (63, 'Ibn Bassam', 1058, 1147),
 (64, 'Miles Copeland Jr.', 1916, 1991),
-(65, 'Herbet Schlidt' , 1951, NULL),
-(66, 'Ali Al-Tentawi' , 1909, 1999);
+(65, 'Ali Al-Tentawi' , 1909, 1999);
 
 
 -- --------------------------------------------------------
@@ -103,12 +102,13 @@ INSERT INTO `authors` (`author_id`, `name`, `birth_year`, `death_year`) VALUES
 --
 
 CREATE TABLE `books` (
-  `book_id` int(11) NOT NULL,
+  `book_id` int(11) PRIMARY KEY,
   `title` varchar(255) NOT NULL,
   `author_id` int(11) DEFAULT NULL,
   `publication_year` int(11) DEFAULT NULL,
   `genre` varchar(50) DEFAULT NULL,
-  `available_copies` int(11) DEFAULT NULL
+  `available_copies` int(11) DEFAULT NULL ,
+  FOREIGN KEY (`author_id`) REFERENCES `authors`(`author_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -117,7 +117,7 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`book_id`, `title`, `author_id`, `publication_year`, `genre`, `available_copies`) VALUES
 (101, 'Al-Bidayah wa-an-Nihayah', 1, 2000, 'History', 10),
-(102, 'Siyar Alam al-Nubala', 2, 1999, 'History', 8),
+(102, 'Siyar Aalam al-Nubala', 2, 1999, 'History', 8),
 (103, 'The Mysterious Affair at Styles', 3, 1934, 'Mystery', 12),
 (104, 'Aqoom Qeela', 4, 2021, 'Novel', 7),
 (105, 'Atlas of the Umayyad State', 5, 2005, 'History', 6),
@@ -133,18 +133,18 @@ INSERT INTO `books` (`book_id`, `title`, `author_id`, `publication_year`, `genre
 (115, 'Chapters from History', 3, 2012, 'History', 6),
 (116, 'Principles of Syntax', 4, 1000, 'Language', 5),
 (117, 'Artificial Intelligence', NULL, 2018, 'Technology', 9),
-(118, 'Programming in Python', 65, 2019, 'Programming', 15),
+(118, 'Programming in Python', 56, 2019, 'Programming', 15),
 (119, 'Fundamentals of Mathematics', NULL, 2010, 'Mathematics', 14),
 (120, 'Academic Writing', 14, 2017, 'Literature', 11),
 (121, 'Human Geography', 15, 2016, 'Geography', 13),
-(122, 'Java Programming Fundamentals', 65, 2019, 'Programming', 10),
+(122, 'Java Programming Fundamentals', 56, 2019, 'Programming', 10),
 (123, 'Arabic Alphabet', 16, 2002, 'Language', 6),
 (124, 'Travel Literature', 17, 2004, 'Literature', 8),
 (125, 'The War of the Worlds', 18, 1898, 'Science Fiction', 10),
 (126, 'Quantum Physics', 19, 2019, 'Science', 7),
 (127, 'Economic Geography', 20, 2018, 'Geography', 9),
 (128, 'Science and Religion', 21, 2015, 'Philosophy', 6),
-(129, 'The Muqaddimah', 1, 1377, 'History', 12),
+(129, 'The Muqaddimah', 29, 1377, 'History', 12),
 (130, 'The Story of Civilization', 22, 1935, 'History', 11),
 (131, 'Islamic History', 1, 1950, 'History', 10),
 (132, 'Arabic Literature', 23, 2012, 'Literature', 13),
@@ -166,8 +166,8 @@ INSERT INTO `books` (`book_id`, `title`, `author_id`, `publication_year`, `genre
 (148, 'Contemporary Arab Thought', 39, 2018, 'Thought', 9),
 (149, 'Programming in the Age of Big Data', 40, 2021, 'Programming', 12),
 (150, 'Jamharat Ansab Al- Arab', 8, 2000, 'History', 10),
-(151, 'Tales of Mystery & Imagination', 51, 1839, 'Novel', 1),
-(152, 'Oliver Twist', 52, 1839, 'Novel', 1),
+(151, 'Tales of Mystery & Imagination', 51, 1908, 'Novel', 1),
+(152, 'Oliver Twist', 20, 1839, 'Novel', 1),
 (153, 'Java: A Beginners Guide', 56, 2005, 'Programming', 9),
 (154, 'Kitāb al-Hayawān', 54, 2003, 'Literature', 1),
 (155, 'Kitāb al-Roh', 53, 2003, 'Religion', 1),
@@ -206,7 +206,7 @@ INSERT INTO `books` (`book_id`, `title`, `author_id`, `publication_year`, `genre
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) PRIMARY KEY,
   `username` varchar(50) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `full_name` varchar(100) NOT NULL,
